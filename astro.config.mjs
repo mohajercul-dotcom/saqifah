@@ -6,5 +6,12 @@ const isCloudflare = process.env.DEPLOY_TARGET === 'cloudflare' || process.env.C
 
 export default defineConfig({
   output: 'server',
-  adapter: isCloudflare ? cloudflare() : vercel(),
+  adapter: isCloudflare
+    ? cloudflare({
+        imageService: 'passthrough',
+        platformProxy: {
+          enabled: true,
+        },
+      })
+    : vercel(),
 });
